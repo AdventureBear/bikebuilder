@@ -1,0 +1,23 @@
+ProdID
+UPC
+Category
+Brand
+Model
+Model Description
+Size
+Color
+MSRP
+MAP
+Each Cost
+Manufacturer Prod
+COO
+Discontinued
+UOM
+Weight
+Length
+Width
+Height
+ORMD
+Product Description
+Replacement
+Substitute
