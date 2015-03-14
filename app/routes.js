@@ -1,58 +1,13 @@
 /**
- * Created by suzanne on 3/11/15.
+ * Created by suzanne on 3/12/15.
  */
-// server.js
 
-// BASE SETUP
-// =============================================================================
-
-// call the packages we need
-var express    = require('express');        // call express
-var app        = express();                 // define our app using express
-var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
-var mongoose   = require('mongoose');       // mongoose for mongodb
-var morgan = require('morgan');             // log requests to the console (express4)
-var methodOverride = require('method-override'); //simulate DELETE and PUT (express4)
-var database = require('./config/database');
-
-
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-// load the config
-
-
-
-app.use(express.static(__dirname + '/public'));    //set the static files location /public/img will be /img
-app.use(morgan('dev'));                     //log every request to the console
-app.use(bodyParser.urlencoded({ extended: true })); //parse appplications/x-www.form-urlencoded
-app.use(bodyParser.json());                         //parse application/json
-app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
-app.use(methodOverride());
-
-var port = process.env.PORT || 8080;        // set our port
-
-
-
-
-// confirmation and error messaging
-
-mongoose.connect(database.url);     // connect to mongoDB database on
-db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
-    console.log("The database connection is active.");
-});
-
-
-
-var Bear = require('./app/models/bear');  //connect the bears
-var Todo = require('./app/models/todo');  //connect todos
-var Product = require('./app/models/product');  //connect products
-
-/*
 // ROUTES FOR OUR API
 // =============================================================================
-var router = express.Router();              // get an instance of the express Router
+            // get an instance of the express Router
+var express    = require('express');        // call express
+var app        = express();
+var router     = express.Router();
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
@@ -156,7 +111,7 @@ router.route('/todos')
         //use mongoose to get all the todos
         Todo.find(function(err,todos){
             if (err)
-            res.send(err)
+                res.send(err)
             res.json(todos); // return all todos in JSON format
         });
     })
@@ -187,19 +142,19 @@ router.route('/todos')
 router.route('/todos/:todo_id')
     //delete a todo (accessed at /api/todos/:todo_id
     .delete (function(req,res) {
-        Todo.remove({
-            _id: req.params.todo_id
-        }, function (err,todo){
-            if (err)
-                res.send(err);
+    Todo.remove({
+        _id: req.params.todo_id
+    }, function (err,todo){
+        if (err)
+            res.send(err);
 
-            //get and return all the todos after you create another
-            Todo.find(function(err,todos){
-                if (err)
-                    res.send(err)
-                res.json(todos);
-            });
+        //get and return all the todos after you create another
+        Todo.find(function(err,todos){
+            if (err)
+                res.send(err)
+            res.json(todos);
         });
+    });
 });
 
 //=========Catalog============
@@ -284,23 +239,8 @@ router.route('/products/:product_id')
         });
     });
 
-
-*/
-
-// load the routes
-require('./app/routes.js')(app);
-
 //application
-/*
+
 app.get('*', function(req,res){
     res.sendfile('./public/index.html'); //load the single view file (angular will handle the page charges on the front -end
 });
-*/
-// REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
-
-// START THE SERVER
-// =============================================================================
-app.listen(port);
-console.log('Magic happens on port ' + port);
